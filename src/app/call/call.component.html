@@ -1,0 +1,55 @@
+<div class="main-container" *ngIf="joined">
+  <!-- Video + Chat split -->
+  <div class="content">
+    <!-- Left: Video Area -->
+    <div class="video-section mat-elevation-z4">
+      <video #remoteVideo autoplay></video>
+      <video #localVideo autoplay muted class="local-video"></video>
+
+     <div class="controls">
+  <button mat-icon-button color="primary" (click)="toggleVideo()" matTooltip="Toggle Video">
+    <mat-icon>videocam</mat-icon>
+  </button>
+  <button mat-icon-button color="accent" (click)="toggleAudio()" matTooltip="Toggle Audio">
+    <mat-icon>mic</mat-icon>
+  </button>
+  <button mat-icon-button color="warn" (click)="leaveCall()" matTooltip="Leave Call">
+    <mat-icon>call_end</mat-icon>
+  </button>
+</div>
+
+    </div>
+
+    <!-- Right: Chat Area -->
+    <div class="chat-section mat-elevation-z4">
+      <mat-toolbar color="primary">Chat</mat-toolbar>
+
+      <div class="chat-history" #chatArea>
+        <div *ngFor="let msg of chatHistory" [ngClass]="{'me': msg.sender === username, 'other': msg.sender !== username}">
+          <strong>{{ msg.sender === username ? 'You' : msg.sender }}:</strong>
+          {{ msg.message }}
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <mat-form-field class="chat-field" appearance="outline">
+          <input matInput [(ngModel)]="chatMessage" placeholder="Type a message…" (keydown.enter)="sendChat()" />
+        </mat-form-field>
+        <button mat-icon-button color="primary" (click)="sendChat()">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Username Entry -->
+<div class="join-box" *ngIf="!joined">
+  <mat-card class="join-card">
+    <h2>Enter Your Name</h2>
+    <mat-form-field appearance="outline">
+      <input matInput type="text" [(ngModel)]="username" placeholder="Your name" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="joinCall()">Join Call</button>
+  </mat-card>
+</div>

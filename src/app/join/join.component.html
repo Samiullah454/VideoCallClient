@@ -1,0 +1,4 @@
+<div class="centered">
+  <mat-spinner *ngIf="!error && showLoader"></mat-spinner>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div>
