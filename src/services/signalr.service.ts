@@ -22,7 +22,7 @@ buildConnection(): void {
   this.hubConnection = new signalR.HubConnectionBuilder()
     .withUrl(environment.signalrHubUrl, {
       withCredentials: true, // Required for CORS
-      transport: signalR.HttpTransportType.WebSockets, // Force WebSockets (recommended)
+      //transport: signalR.HttpTransportType.WebSockets, // Force WebSockets (recommended)
       headers: {
         'ngrok-skip-browser-warning': 'true' // Bypass ngrok browser interstitial
       }
