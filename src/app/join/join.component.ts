@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { NgFor, NgIf } from '@angular/common';
@@ -14,7 +14,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   templateUrl: './join.component.html',
   styleUrl: './join.component.scss'
 })
-export class JoinComponent {
+export class JoinComponent implements OnInit{
 showLoader = true;
   error!: string;
   roomId!: string;
