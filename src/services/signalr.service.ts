@@ -16,16 +16,23 @@ export class SignalrService {
   /**
    * Initializes the connection with event handlers
    */
-  buildConnection(): void {
-    if (this.hubConnection) return; // prevent duplicate builds
+buildConnection(): void {
+  if (this.hubConnection) return; // Prevent duplicate builds
 
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(environment.signalrHubUrl)
-      .withAutomaticReconnect()
-      .build();
+  this.hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl(environment.signalrHubUrl, {
+      withCredentials: true, // Required for CORS
+      transport: signalR.HttpTransportType.WebSockets, // Force WebSockets (recommended)
+      headers: {
+        'ngrok-skip-browser-warning': 'true' // Bypass ngrok browser interstitial
+      }
+    })
+    .withAutomaticReconnect()
+    .configureLogging(signalR.LogLevel.Information) // Optional: logs for debugging
+    .build();
 
-    this.registerHubEvents();
-  }
+  this.registerHubEvents();
+}
 
   /**
    * Starts the SignalR connection
