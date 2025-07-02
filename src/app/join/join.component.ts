@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
@@ -43,20 +43,21 @@ export class JoinComponent implements OnInit {
       return;
     }
 
-    const url = `${environment.apiUrl}/call/validate-join?roomId=${roomId}&token=${token}`;
-    console.log('[JoinComponent] Calling API:', url);
-
-    this.http.get<any>(url).subscribe({
-      next: res => {
-        console.log('[JoinComponent] Validation success:', res);
-        this.roomId = res.roomId;
-        this.router.navigate(['/call', this.roomId]);
-      },
-      error: err => {
-        console.error('[JoinComponent] Validation error:', err);
-        this.error = 'Invalid or expired link.';
-        this.showLoader = false;
-      }
-    });
+   this.http.get<any>(`${environment.apiUrl}/api/call/validate-join?roomId=${roomId}&token=${token}`, {
+    headers: new HttpHeaders({
+      'ngrok-skip-browser-warning': 'true'
+    }),
+    responseType: 'json' as const
+  }).subscribe({
+    next: res => {
+      this.roomId = res.roomId;
+      this.router.navigate(['/call', this.roomId]);
+    },
+    error: err => {
+      console.error('[JoinComponent] Validation error:', err);
+      this.error = 'Invalid or expired link.';
+      this.showLoader = false;
+    }
+  });
   }
 }
