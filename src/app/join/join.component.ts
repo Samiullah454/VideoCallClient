@@ -2,13 +2,16 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgFor, NgIf } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-join',
   standalone: true,
   templateUrl: './join.component.html',
+   imports: [NgIf,NgFor, MatProgressSpinnerModule 
+    
+  ],
   styleUrl: './join.component.scss'
 })
 export class JoinComponent implements OnInit {
