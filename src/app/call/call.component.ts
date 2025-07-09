@@ -88,9 +88,15 @@ export class CallComponent {
       }
     };
 
-    this.peerConnection.ontrack = e => {
-      this.remoteVideo.nativeElement.srcObject = e.streams[0];
-    };
+    this.peerConnection.ontrack = (event) => {
+  const remoteStream = event.streams[0];
+
+  // Only set if it's not already set
+  if (this.remoteVideo.nativeElement.srcObject !== remoteStream) {
+    this.remoteVideo.nativeElement.srcObject = remoteStream;
+  }
+};
+
 
     await this.makeOffer();
   }
